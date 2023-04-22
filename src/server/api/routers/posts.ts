@@ -55,7 +55,7 @@ const addUserDataToPosts = async (posts: Post[]) => {
 // Create a new ratelimiter, that allows 3 requests per 1 minute
 const ratelimit = new Ratelimit({
   redis: Redis.fromEnv(),
-  limiter: Ratelimit.slidingWindow(3, "1 m"),
+  limiter: Ratelimit.slidingWindow(3, "1 s"),
   analytics: true,
 });
 
@@ -102,7 +102,7 @@ export const postsRouter = createTRPCRouter({
   create: privateProcedure
     .input(
       z.object({
-        content: z.string().emoji("Only emojis are allowed").min(1).max(280),
+        content: z.string().min(1).max(280),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -115,6 +115,32 @@ export const postsRouter = createTRPCRouter({
         data: {
           authorId,
           content: input.content,
+        },
+      });
+
+      return post;
+    }),
+
+  deletePostsByPostId: privateProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const post = await ctx.prisma.post.findUnique({
+        where: { id: input.id },
+      });
+
+      if (!post) throw new TRPCError({ code: "NOT_FOUND" });
+
+      if (post.authorId !== ctx.userId) {
+        throw new TRPCError({ code: "FORBIDDEN" });
+      }
+
+      await ctx.prisma.post.delete({
+        where: {
+          id: input.id,
         },
       });
 

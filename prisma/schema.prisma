@@ -1,22 +1,105 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 datasource db {
-    provider     = "mysql"
-    url          = env("DATABASE_URL")
-    relationMode = "prisma"
+  provider     = "postgresql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 generator client {
-    provider        = "prisma-client-js"
-    previewFeatures = ["jsonProtocol"]
+  provider        = "prisma-client-js"
+  previewFeatures = ["jsonProtocol"]
 }
 
 model Post {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
 
-    content  String @db.VarChar(255)
-    authorId String
+  content   String  @db.VarChar(255)
+  authorId  String
 
-    @@index([authorId])
+  @@index([authorId])
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  date        DateTime
+  name        String   @db.VarChar(255)
+  description String   @db.VarChar(255)
+  code        String   @db.VarChar(255)
+  links       String   @db.VarChar(255)
+  images      String[] @default([])
+  tags        String[] @default([])
+  attendees   String[] @default([])
+
+  authorId  String
+
+  @@index([authorId])
+}
+
+model Poll {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String   @db.VarChar(255)
+  authorId  String
+  options   String[]
+  responses Int[]
+
+  @@index([authorId])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  content   String   @db.VarChar(255)
+  authorId  String
+  postId    String
+  eventId   String
+
+  @@index([authorId])
+  @@index([postId])
+  @@index([eventId])
+}
+
+model Vote {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  authorId  String
+  postId    String
+  eventId   String
+
+  @@index([authorId])
+  @@index([postId])
+  @@index([eventId])
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  authorId  String
+  postId    String
+  eventId   String
+
+  @@index([authorId])
+  @@index([postId])
+  @@index([eventId])
+}
+
+model Bookmark {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  authorId  String
+  postId    String
+  eventId   String
+
+  @@index([authorId])
+  @@index([postId])
+  @@index([eventId])
 }
