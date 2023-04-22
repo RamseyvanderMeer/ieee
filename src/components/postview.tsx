@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import Image from "next/image";
 import Link from "next/link";
 import { api } from "~/utils/api";
+import { useUser } from "@clerk/nextjs";
 
 import relativeTime from "dayjs/plugin/relativeTime";
 import toast from "react-hot-toast";
@@ -25,6 +26,7 @@ export const PostView = (props: PostWithUser) => {
     });
 
   const { post, author } = props;
+  const { user } = useUser();
   return (
     <div key={post.id} className="flex gap-3 border-b border-slate-400 p-4">
       <Image
@@ -42,7 +44,7 @@ export const PostView = (props: PostWithUser) => {
           <span className="font-thin">{` · ${dayjs(
             post.createdAt
           ).fromNow()}`}</span>
-          {!isDeleting ? (
+          {!isDeleting && user?.id === author.id && (
             <div
               className="absolute top-0 right-0"
               onClick={() => mutate({ id: post.id })}
@@ -52,7 +54,7 @@ export const PostView = (props: PostWithUser) => {
                 width={25}
                 height={25}
                 fill="currentColor"
-                              viewBox="0 0 16 16"
+                viewBox="0 0 16 16"
               >
                 {" "}
                 <path
@@ -66,7 +68,8 @@ export const PostView = (props: PostWithUser) => {
                 ></path>{" "}
               </svg>
             </div>
-          ) : (
+          )}
+          {isDeleting && user?.id === author.id && (
             <div className="absolute top-0 right-0">
               <LoadingSpinner size={25} />
             </div>
