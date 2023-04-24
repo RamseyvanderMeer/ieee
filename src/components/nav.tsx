@@ -6,7 +6,6 @@ import logo from "~/images/logo.png";
 import { useState } from "react";
 
 export const Nav: React.FC = () => {
-
   const { user, isSignedIn } = useUser();
 
   const [active, setActive] = useState(false);
@@ -40,7 +39,46 @@ export const Nav: React.FC = () => {
             />
           </svg>
         </button>
-        {/*Note that in this div we will use a ternary operator to decide whether or not to display the content of the div  */}
+
+        {!active && (
+          <div className="flex hidden w-full flex-col items-start lg:ml-auto lg:inline lg:inline-flex lg:h-auto  lg:w-auto lg:flex-row lg:items-center">
+            <Link href="/">
+              <div className="w-full items-center justify-center rounded px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white lg:inline-flex lg:w-auto ">
+                Home
+              </div>
+            </Link>
+            <Link href="/events">
+              <div className="w-full items-center justify-center rounded px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white lg:inline-flex lg:w-auto">
+                events
+              </div>
+            </Link>
+            <Link href="/about">
+              <div className="w-full items-center justify-center rounded px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white lg:inline-flex lg:w-auto">
+                About
+              </div>
+            </Link>
+            <Link href="/contact">
+              <div className="w-full items-center justify-center rounded px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white lg:inline-flex lg:w-auto">
+                Contact
+              </div>
+            </Link>
+            {!isSignedIn && (
+              <div className="w-full items-center justify-center rounded px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white lg:inline-flex lg:w-auto">
+                <SignInButton />
+              </div>
+            )}
+            {isSignedIn && user && (
+              <div className="w-full items-center justify-center rounded px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white lg:inline-flex lg:w-auto">
+                <Link href={`/@${user.username as string}`}>Profile</Link>
+              </div>
+            )}
+            {isSignedIn && user && (
+              <div className="w-full items-center justify-center rounded px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white lg:inline-flex lg:w-auto">
+                <SignOutButton />
+              </div>
+            )}
+          </div>
+        )}
         <div
           className={`${
             active
