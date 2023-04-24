@@ -23,7 +23,7 @@ export const EventList = () => {
     );
 
   return (
-    <div className="flex grow flex-col overflow-y-scroll">
+    <div className="flex grow flex-col overflow-y-scroll overflow-x-hidden">
       {[...filteredData].map((fullEvent) => (
         <EventView {...fullEvent} key={fullEvent.event.id} />
       ))}

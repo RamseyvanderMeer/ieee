@@ -4,7 +4,9 @@ import { EventList } from "~/components/eventList";
 
 const events: NextPage = () => {
   return (
+    <div>
       <EventList />
+      </div>
   );
 };
 
