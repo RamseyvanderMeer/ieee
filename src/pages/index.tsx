@@ -27,8 +27,8 @@ const Home: NextPage = () => {
         {isSignedIn && <CreatePostWizard />}
           </div> */}
 
-      <Feed />
-      {/* <Footer /> */}
+      {/* <Feed /> */}
+          {/* <Footer /> */}
     </PageLayout>
   );
 };

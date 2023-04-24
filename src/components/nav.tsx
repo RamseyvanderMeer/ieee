@@ -17,7 +17,7 @@ export const Nav: React.FC = () => {
 
   return (
     <>
-      <nav className="flex flex-wrap items-center bg-black p-3 border-b border-white">
+      <nav className="flex flex-wrap items-center border-b border-white bg-black p-3">
         <Link href="/">
           <Image height={45} src={logo} alt="logo" />
         </Link>
@@ -43,8 +43,10 @@ export const Nav: React.FC = () => {
         {/*Note that in this div we will use a ternary operator to decide whether or not to display the content of the div  */}
         <div
           className={`${
-            active ? "" : "hidden"
-          }   w-full lg:inline-flex lg:w-auto lg:flex-grow`}
+            active
+              ? "duration-600 inline-block h-auto max-h-screen translate-x-0 transition-all ease-out"
+              : "duration-400 absolute h-0 max-h-0 -translate-x-full overflow-hidden opacity-0 transition ease-out"
+          }   w-full transition delay-100 duration-1000 ease-in-out lg:inline-flex lg:w-auto lg:flex-grow`}
         >
           <div className="flex w-full flex-col items-start lg:ml-auto lg:inline-flex lg:h-auto  lg:w-auto lg:flex-row lg:items-center">
             <Link href="/">

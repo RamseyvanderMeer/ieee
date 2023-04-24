@@ -21,15 +21,27 @@ model Post {
   @@index([authorId])
 }
 
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Catagory {
+    CORPERATE
+    SOCIAL
+    TECHNICAL
+    OTHER
+}
 model Event {
   id          String   @id @default(cuid())
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  date        DateTime
+  updatedAt   DateTime @updatedAt @default(now())
+  date        DateTime @default(now())
   name        String   @db.VarChar(255)
   description String   @db.VarChar(255)
   code        String   @db.VarChar(255)
-  links       String   @db.VarChar(255)
+  links       String[]
+  catagory    Catagory
   images      String[] @default([])
   tags        String[] @default([])
   attendees   String[] @default([])
