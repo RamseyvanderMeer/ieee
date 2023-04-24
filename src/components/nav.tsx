@@ -46,7 +46,7 @@ export const Nav: React.FC = () => {
             active
               ? "duration-600 inline-block h-auto max-h-screen translate-x-0 transition-all ease-out"
               : "duration-400 absolute h-0 max-h-0 -translate-x-full overflow-hidden opacity-0 transition ease-out"
-          }   w-full transition delay-100 duration-1000 ease-in-out lg:inline-flex lg:w-auto lg:flex-grow`}
+          }   w-full transition  duration-1000 ease-in-out lg:inline-flex lg:w-auto lg:flex-grow`}
         >
           <div className="flex w-full flex-col items-start lg:ml-auto lg:inline-flex lg:h-auto  lg:w-auto lg:flex-row lg:items-center">
             <Link href="/">

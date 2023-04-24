@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useState } from "react";
 import type { NextPage } from "next";
-import { PageLayout } from "~/components/layout";
 import axios from "axios";
 
 const FormPage: NextPage = () => {
@@ -46,7 +45,6 @@ const FormPage: NextPage = () => {
   };
 
   return (
-    <PageLayout>
       <div className="relative flex min-h-screen flex-col justify-center overflow-hidden ">
         <div className="m-auto w-full rounded-md bg-white p-6 shadow-xl shadow-rose-600/40 ring-2 ring-indigo-600 lg:max-w-xl">
           <h1 className="text-center text-4xl font-bold uppercase text-indigo-700">
@@ -201,7 +199,6 @@ const FormPage: NextPage = () => {
           </form>
         </div>
       </div>
-    </PageLayout>
   );
 };
 

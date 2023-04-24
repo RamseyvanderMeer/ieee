@@ -1,3 +1,4 @@
+import React from "react";
 import type { RouterOutputs } from "~/utils/api";
 
 import dayjs from "dayjs";
@@ -12,7 +13,6 @@ import { LoadingSpinner } from "./loading";
 
 dayjs.extend(relativeTime);
 
-import React, { useRef, useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -21,7 +21,7 @@ import "swiper/css";
 import "swiper/css/effect-cards";
 
 // import required modules
-import { EffectCards, Pagination, Navigation } from "swiper";
+import { EffectCards } from "swiper";
 
 type EventWithUser = RouterOutputs["events"]["getAll"][number];
 export const EventView = (props: EventWithUser) => {
@@ -91,12 +91,7 @@ export const EventView = (props: EventWithUser) => {
         <Swiper
           effect={"cards"}
           grabCursor={true}
-          modules={[EffectCards, Navigation, Pagination]}
-          navigation={true}
-          pagination={{
-            clickable: true,
-          }}
-          speed={600}
+          modules={[EffectCards]}
           className="mySwiper relative h-48 w-6/12 bg-slate-300 text-white"
         >
           {event?.images.map((image) => (
