@@ -90,11 +90,11 @@ export const eventsRouter = createTRPCRouter({
 
   getAllPublished: publicProcedure.query(async ({ ctx }) => {
     const events = await ctx.prisma.event.findMany({
-        where: {
-            published: true,
-        },
-        take: 100,
-        orderBy: { date: "asc" },
+      where: {
+        published: true,
+      },
+      take: 100,
+      orderBy: { date: "asc" },
     });
 
     return addUserDataToEvents(events);
@@ -175,15 +175,20 @@ export const eventsRouter = createTRPCRouter({
       const authorId = ctx.userId;
       // check each link in links
       const isValidLink = (link: string): boolean => {
-        const regex = /^https?:\/\/[\w\-]+(\.[\w\-]+)+[/#?]?.*$/;
+        const regex =
+          /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
         return regex.test(link);
       };
       const areAllLinksValid = (links: string[]) => {
         return links.every((link) => isValidLink(link));
       };
-
-      if (!areAllLinksValid(input.links as string[]))
+      if (
+        input.links?.length &&
+        input.links?.length > 0 &&
+        !areAllLinksValid(input.links)
+      ) {
         throw new TRPCError({ code: "CONFLICT" });
+      }
 
       const { success } = await ratelimit.limit(authorId);
       if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS" });

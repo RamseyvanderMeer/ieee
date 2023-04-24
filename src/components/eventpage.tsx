@@ -67,7 +67,7 @@ export const EventPage = (props: EventWithUser) => {
       const d = new Date(newDate);
       await mutateAsync({ id: event.id, name, description, date: d, images });
     } catch (error) {
-      console.log("error");
+      console.log(error);
     }
   };
 
