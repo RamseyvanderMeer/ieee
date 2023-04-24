@@ -82,7 +82,7 @@ export const eventsRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
     const events = await ctx.prisma.event.findMany({
       take: 100,
-      orderBy: [{ date: "desc" }],
+      orderBy: [{ date: "asc" }],
     });
 
     return addUserDataToEvents(events);

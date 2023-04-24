@@ -9,7 +9,19 @@ import { useUser } from "@clerk/nextjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import toast from "react-hot-toast";
 import { LoadingSpinner } from "./loading";
+
 dayjs.extend(relativeTime);
+
+import React, { useRef, useState } from "react";
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/effect-cards";
+
+// import required modules
+import { EffectCards, Pagination, Navigation } from "swiper";
 
 type EventWithUser = RouterOutputs["events"]["getAll"][number];
 export const EventView = (props: EventWithUser) => {
@@ -18,7 +30,7 @@ export const EventView = (props: EventWithUser) => {
   const { mutate, isLoading: isDeleting } =
     api.events.deleteEventsByEventId.useMutation({
       onSuccess: () => {
-        void ctx.posts.getAll.invalidate();
+        void ctx.events.getAll.invalidate();
       },
       onError: () => {
         toast.error("Failed to delete event! Please try again later.");
@@ -28,25 +40,22 @@ export const EventView = (props: EventWithUser) => {
   const { event, author } = props;
   const { user } = useUser();
   return (
-    <div key={event.id} className="flex gap-3 border-b border-slate-400 p-4">
-      <Image
-        src={author.profileImageUrl}
-        className="h-14 w-14 rounded-full"
-        alt={`@${author.username}'s profile picture`}
-        width={56}
-        height={56}
-      />
-      <div className="flex w-full flex-col">
-        <div className="relative flex w-full gap-1 text-slate-300">
-          <Link href={`/@${author.username}`}>
-            <span>{`@${author.username} `}</span>
-          </Link>
-          <span className="font-thin">{` · ${dayjs(
-            event.createdAt
+    <div
+      key={event.id}
+      className="flex w-full flex-col gap-3 border-b border-slate-400 p-4"
+    >
+      <div className="relative flex w-full flex-row items-center justify-between">
+        <Link href={`event/${event.id}`} className="text-2xl font-bold">
+          {event.name}
+        </Link>
+
+        <div className="relative flex flex-row items-center">
+          <span className="font-thin">{` ${event.date.toLocaleDateString()} · ${dayjs(
+            event.date
           ).fromNow()}`}</span>
           {!isDeleting && user?.id === author.id && (
             <div
-              className="absolute top-0 right-0 hover:cursor-pointer"
+              className="relative top-0 right-0 hover:cursor-pointer"
               onClick={() => mutate({ id: event.id })}
             >
               <svg
@@ -75,10 +84,36 @@ export const EventView = (props: EventWithUser) => {
             </div>
           )}
         </div>
-        {/* <Link href={`/post/${post.id}`} className="text-2xl"> */}
-            {event.description}
-        {/* </Link> */}
       </div>
+      <div className="flex w-full flex-col items-center justify-between md:flex-row">
+        <p className="w-6/12 text-white">{event.description}</p>
+
+        <Swiper
+          effect={"cards"}
+          grabCursor={true}
+          modules={[EffectCards, Navigation, Pagination]}
+          navigation={true}
+          pagination={{
+            clickable: true,
+          }}
+          speed={600}
+          className="mySwiper relative h-48 w-6/12 bg-slate-300 text-white"
+        >
+          {event?.images.map((image) => (
+            <SwiperSlide key={image}>
+              <Image
+                alt={image}
+                src={image}
+                fill
+                className="w-full overflow-hidden object-cover object-center"
+                loading="lazy"
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+      {/* </Link> */}
+      {/* </div> */}
     </div>
   );
 };

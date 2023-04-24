@@ -54,19 +54,19 @@ export const Nav: React.FC = () => {
                 Home
               </div>
             </Link>
-            <Link href="/">
+            <Link href="/events">
               <div className="w-full items-center justify-center rounded px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white lg:inline-flex lg:w-auto">
-                Services
+                events
               </div>
             </Link>
-            <Link href="/">
+            <Link href="/about">
               <div className="w-full items-center justify-center rounded px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white lg:inline-flex lg:w-auto">
-                About us
+                About
               </div>
             </Link>
             <Link href="/contact">
               <div className="w-full items-center justify-center rounded px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white lg:inline-flex lg:w-auto">
-                Contact us
+                Contact
               </div>
             </Link>
             {!isSignedIn && (
