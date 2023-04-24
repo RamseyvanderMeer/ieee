@@ -39,12 +39,13 @@ model Event {
   date        DateTime @default(now())
   name        String   @db.VarChar(255)
   description String   @db.VarChar(255)
-  code        String   @db.VarChar(255)
-  links       String[]
-  catagory    Catagory
-  images      String[] @default([])
+  code        String   @db.VarChar(255) @default(cuid())
+  links       String[] @default([])
+  catagory    Catagory @default(OTHER)
+  images      String[] @default(["https://ik.imagekit.io/ramseyv/bkck4iiutrtfiwozjdvo.png?updatedAt=1682371572533"])
   tags        String[] @default([])
   attendees   String[] @default([])
+  published   Boolean  @default(false)
 
   authorId  String
 

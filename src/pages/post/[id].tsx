@@ -1,6 +1,7 @@
 import type { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { api } from "~/utils/api";
+import { PageLayout } from "~/components/layout";
 import { PostView } from "~/components/postview";
 import { generateSSGHelper } from "~/server/helpers/ssgHelper";
 
@@ -15,7 +16,9 @@ const SinglePostPage: NextPage<{ id: string }> = ({ id }) => {
       <Head>
         <title>{`${data.post.content} - @${data.author.username}`}</title>
       </Head>
-      <PostView {...data} />
+      <PageLayout>
+        <PostView {...data} />
+      </PageLayout>
     </>
   );
 };

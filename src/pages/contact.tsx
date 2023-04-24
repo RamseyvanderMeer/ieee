@@ -50,8 +50,8 @@ const FormPage: NextPage = () => {
           <h1 className="text-center text-4xl font-bold uppercase text-indigo-700">
             Contact:
           </h1>
-          <form className="mt-6" onSubmit={SendMail} onReset={ClearForm}>
-            <div className="mb-2">
+                <form className="mt-6" onSubmit={SendMail} onReset={ClearForm}>
+                    <div className="mb-2">
               <label>
                 <span className="text-gray-700">Your name</span>
                 <input

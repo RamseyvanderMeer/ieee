@@ -88,6 +88,18 @@ export const eventsRouter = createTRPCRouter({
     return addUserDataToEvents(events);
   }),
 
+  getAllPublished: publicProcedure.query(async ({ ctx }) => {
+    const events = await ctx.prisma.event.findMany({
+        where: {
+            published: true,
+        },
+        take: 100,
+        orderBy: { date: "asc" },
+    });
+
+    return addUserDataToEvents(events);
+  }),
+
   getEventsByCatagory: publicProcedure
     .input(
       z.object({
@@ -106,22 +118,13 @@ export const eventsRouter = createTRPCRouter({
         .then(addUserDataToEvents)
     ),
 
-  //   name        String   @db.VarChar(255)
-  //   description String   @db.VarChar(255)
-  //   code        String   @db.VarChar(255)
-  //   links       String   @db.VarChar(255)
-  //   catagory    Catagory
-  //   images      String[] @default([])
-  //   tags        String[] @default([])
-  //   attendees   String[] @default([])
-
   create: privateProcedure
     .input(
       z.object({
         name: z.string().min(1).max(255),
         description: z.string().min(1).max(255),
         code: z.string().optional(),
-        links: z.array(z.string()).optional(),
+        links: z.array(z.string().url()).optional(),
         catagory: z.string().optional(),
         images: z.array(z.string()).optional(),
         tags: z.array(z.string()).optional(),
@@ -137,6 +140,58 @@ export const eventsRouter = createTRPCRouter({
       const event = await ctx.prisma.event.create({
         data: {
           authorId,
+          name: input.name,
+          description: input.description,
+          code: input.code ? input.code : "",
+          links: input.links ? input.links : ([] as string[]),
+          tags: input.tags ? input.tags : [],
+          catagory: input.catagory
+            ? (input.catagory as Catagory)
+            : Catagory.OTHER,
+          images: input.images ? input.images : [],
+          attendees: input.attendees ? input.attendees : [],
+        },
+      });
+
+      return event;
+    }),
+
+  editEventsByEventId: privateProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        name: z.string().min(1).max(255),
+        description: z.string().min(1).max(255),
+        date: z.date().optional(),
+        code: z.string().optional(),
+        links: z.array(z.string().url()).optional(),
+        catagory: z.string().optional(),
+        images: z.array(z.string()).optional(),
+        tags: z.array(z.string()).optional(),
+        attendees: z.array(z.string()).optional(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const authorId = ctx.userId;
+      // check each link in links
+      const isValidLink = (link: string): boolean => {
+        const regex = /^https?:\/\/[\w\-]+(\.[\w\-]+)+[/#?]?.*$/;
+        return regex.test(link);
+      };
+      const areAllLinksValid = (links: string[]) => {
+        return links.every((link) => isValidLink(link));
+      };
+
+      if (!areAllLinksValid(input.links as string[]))
+        throw new TRPCError({ code: "CONFLICT" });
+
+      const { success } = await ratelimit.limit(authorId);
+      if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS" });
+      const event = await ctx.prisma.event.update({
+        where: {
+          id: input.id,
+        },
+        data: {
           name: input.name,
           description: input.description,
           code: input.code ? input.code : "",

@@ -1,21 +1,21 @@
 import type { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { api } from "~/utils/api";
-import { PostView } from "~/components/postview";
+import { EventPage } from "~/components/eventpage";
 import { generateSSGHelper } from "~/server/helpers/ssgHelper";
 
-const SinglePostPage: NextPage<{ id: string }> = ({ id }) => {
-  const { data } = api.posts.getById.useQuery({
+const SingleEventPage: NextPage<{ id: string }> = ({ id }) => {
+  const { data } = api.events.getById.useQuery({
     id,
   });
-  if (!data) return <div>404</div>;
+  if (!data) return <div>404 Event Not Found</div>;
 
   return (
     <>
       <Head>
-        <title>{`${data.post.content} - @${data.author.username}`}</title>
+        <title>{`${data.event.name} - @${data.author.username}`}</title>
       </Head>
-      <PostView {...data} />
+      <EventPage {...data} />
     </>
   );
 };
@@ -27,7 +27,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   if (typeof id !== "string") throw new Error("no id");
 
-  await ssg.posts.getById.prefetch({ id });
+  await ssg.events.getById.prefetch({ id });
 
   return {
     props: {
@@ -41,4 +41,4 @@ export const getStaticPaths = () => {
   return { paths: [], fallback: "blocking" };
 };
 
-export default SinglePostPage;
+export default SingleEventPage;

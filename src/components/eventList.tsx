@@ -4,7 +4,8 @@ import { EventView } from "~/components/eventview";
 import { api } from "~/utils/api";
 
 export const EventList = () => {
-  const { data, isLoading: eventsLoading } = api.events.getAll.useQuery();
+  const { data, isLoading: eventsLoading } =
+    api.events.getAll.useQuery();
 
   if (eventsLoading)
     return (
@@ -13,11 +14,17 @@ export const EventList = () => {
       </div>
     );
 
-  if (!data) return <div>Something went wrong</div>;
+    if (!data) return <div>Something went wrong</div>;
+
+
+
+    const filteredData = data.filter(
+      (event) => event.event.date > new Date() && event.event.published
+    );
 
   return (
     <div className="flex grow flex-col overflow-y-scroll">
-      {[...data].map((fullEvent) => (
+      {[...filteredData].map((fullEvent) => (
         <EventView {...fullEvent} key={fullEvent.event.id} />
       ))}
     </div>
