@@ -58,7 +58,7 @@ export const EventList = () => {
     };
 
     return (
-    <div className="flex grow flex-col items-center overflow-x-hidden overflow-y-scroll">
+    <div className="flex grow flex-col items-center overflow-x-hidden">
       <div className="inline-flex rounded-md shadow-sm" role="group">
         <button
           type="button"

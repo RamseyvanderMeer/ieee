@@ -18,13 +18,15 @@ export const Event = () => {
     if (!data) return <div>Something went wrong</div>;
 
   return (
-      <div className="relative flex min-h-screen w-screen grow flex-col overflow-x-hidden overflow-y-scroll">
+      <div className="relative flex min-h-screen w-screen grow flex-col overflow-x-hidden">
 
           <Link href={`/events`}
           className="text-4xl font-bold text-center">
             Upcoming Event:
-            </Link>
-            <EventView key={data[0]?.event.id} {...data[0]} />
+          </Link>
+          {data[0] &&
+              <EventView key={data[0]?.event.id} {...data[0]} />
+          }
     </div>
   );
 };
