@@ -30,9 +30,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
           name="viewport"
           content="width=device-width, initial-scale=1.0, viewport-fit=cover"
         />
-
         <meta name="robots" content="index, follow" />
-        <link rel="manifest" href="/site.webmanifest" />
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
         <link rel="canonical" href="https://ieee.illinois.edu"></link>
         <meta name="msapplication-TileColor" content="#da532c" />
