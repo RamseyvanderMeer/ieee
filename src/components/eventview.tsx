@@ -47,13 +47,13 @@ export const EventView = (props: EventWithUser) => {
             </div>
           </div>
           <div className="flex w-full flex-col items-center justify-between md:flex-row">
-            <p className="w-5/12 text-white">{event.description}</p>
+            <p className="md:w-5/12 text-white">{event.description}</p>
 
             <Swiper
               effect={"cards"}
               grabCursor={true}
               modules={[EffectCards]}
-              className="mySwiper relative h-48 w-6/12 bg-slate-300 text-white"
+              className="mySwiper relative h-48 w-full md:w-6/12 bg-slate-300 text-white"
             >
               {event?.images.map((image) => (
                 <SwiperSlide key={image}>

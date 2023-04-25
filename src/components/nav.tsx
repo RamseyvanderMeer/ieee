@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { useUser, SignInButton, SignOutButton } from "@clerk/nextjs";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "~/images/logo.png";
-import { useState } from "react";
 
 export const Nav: React.FC = () => {
+
   const { user, isSignedIn } = useUser();
 
   const [active, setActive] = useState(false);
@@ -13,6 +14,21 @@ export const Nav: React.FC = () => {
   const handleClick = () => {
     setActive(!active);
   };
+
+  const router = useRouter();
+
+  useEffect(() => {
+    const handleRouteChange = () => {
+      // Do something here, such as track an analytics event
+        setActive(false)
+    };
+
+    router.events.on('routeChangeComplete', handleRouteChange);
+
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, [router.events]);
 
   return (
     <>

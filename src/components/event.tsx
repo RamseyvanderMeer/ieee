@@ -17,8 +17,6 @@ export const Event = () => {
 
     if (!data) return <div>Something went wrong</div>;
 
-    console.log(data)
-
   return (
       <div className="relative flex min-h-screen w-screen grow flex-col overflow-x-hidden overflow-y-scroll">
 
