@@ -1,7 +1,9 @@
 import { type NextPage } from "next";
 
 import { Landing } from "~/components/landing";
-import {Contact} from "~/components/contact";
+import { Contact } from "~/components/contact";
+import { About } from "~/components/about";
+import { Event } from "~/components/event"
 
 const Home: NextPage = () => {
   //   const { isLoaded: userLoaded } = useUser();
@@ -15,10 +17,8 @@ const Home: NextPage = () => {
   return (
     <div>
         <Landing />
-        <div>
-              <h1 className="text-4xl text-center">About</h1>
-              <h1 className="text-4xl text-center">Events</h1>
-        </div>
+              <About />
+<Event />
         <Contact />
     </div>
   );

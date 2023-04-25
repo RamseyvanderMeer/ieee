@@ -14,8 +14,32 @@ const MyApp: AppType = ({ Component, pageProps }) => {
     <ClerkProvider {...pageProps}>
       <Head>
         <title>IEEE UIUC</title>
-        <meta name="description" content="IEEE UIUC website" />
         <link rel="icon" href="/favicon.ico" />
+        <meta charSet="UTF-8" />
+        <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="description" content="IEEE UIUC Branch Website - get upto date information of the latest tech talks, info sessions, luncheons, workshops, and socials. Or reach up though the contact form!" />
+        <meta name="keywords" content="IEEE, UIUC, Electrical, Engineering, Coputer, Tech, CS, ECE, EE, CE, Code, TAG, Wires, Grainer, College" />
+        <meta name="author" content="Ramsey van der Meer" />
+        <meta
+          name="apple-mobile-web-app-status-bar-style"
+          content="black-translucent"
+        />
+        <meta name="theme-color" content="#000000" />
+
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+        />
+
+        <meta name="robots" content="index, follow" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+        <link rel="canonical" href="https://ieee.illinois.edu"></link>
+        <meta name="msapplication-TileColor" content="#da532c" />
+        {/* <meta
+          property="og:image"
+          content="https://ramseyvdm.com/images/og-image.png"
+        /> */}
       </Head>
       <Toaster position="bottom-center" />
       <PageLayout>
