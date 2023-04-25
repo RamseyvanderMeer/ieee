@@ -55,8 +55,8 @@ export const EventView = (props: EventWithUser) => {
               modules={[EffectCards]}
               className="mySwiper relative h-48 w-full md:w-6/12 bg-slate-300 text-white"
             >
-              {event?.images.map((image) => (
-                <SwiperSlide key={image}>
+              {event?.images.map((image, idx) => (
+                <SwiperSlide key={`${image}-${idx}`}>
                   <Image
                     alt={image}
                     src={image}

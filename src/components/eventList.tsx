@@ -4,60 +4,59 @@ import { EventView } from "~/components/eventview";
 import { api } from "~/utils/api";
 
 export const EventList = () => {
-    const { data, isLoading: eventsLoading } = api.events.getAll.useQuery();
-    const [all, setAll] = useState(true);
-    const [past, setPast] = useState(false);
-    const [upcoming, setUpcoming] = useState(false);
-    const [filteredData, setFilteredData] = useState(data);
+  const { data, isLoading: eventsLoading } = api.events.getAll.useQuery();
+  const [all, setAll] = useState(true);
+  const [past, setPast] = useState(false);
+  const [upcoming, setUpcoming] = useState(false);
+  const [filteredData, setFilteredData] = useState(data);
 
-    useEffect(() => {
-        if (all) {
-            setFilteredData(data?.filter((event) => event.event.published));
-        } else if (past) {
-            setFilteredData(
-                data?.filter(
-                    (event) => event.event.published && event.event.date < new Date()
-                )
-            );
-        } else if (upcoming) {
-            setFilteredData(
-                data?.filter(
-                    (event) => event.event.published && event.event.date > new Date()
-                )
-            );
-        }
-    }, [all, past, upcoming]);
+  useEffect(() => {
+    if (all) {
+      setFilteredData(data?.filter((event) => event.event.published));
+    } else if (past) {
+      setFilteredData(
+        data?.filter(
+          (event) => event.event.published && event.event.date < new Date()
+        )
+      );
+    } else if (upcoming) {
+      setFilteredData(
+        data?.filter(
+          (event) => event.event.published && event.event.date > new Date()
+        )
+      );
+    }
+  }, [all, past, upcoming]);
 
-    if (eventsLoading)
-        return (
-            <div className="flex grow">
-                <LoadingPage />
-            </div>
-        );
+  const toggleAll = () => {
+    console.log("toggle all");
+    setAll(true);
+    setPast(false);
+    setUpcoming(false);
+  };
+  const togglePast = () => {
+    console.log("toggle past");
+    setAll(false);
+    setPast(true);
+    setUpcoming(false);
+  };
+  const toggleUpcoming = () => {
+    console.log("toggle upcoming");
+    setAll(false);
+    setPast(false);
+    setUpcoming(true);
+  };
 
-    if (!data) return <div>Something went wrong</div>;
-
-
-    const toggleAll = () => {
-        console.log("toggle all");
-        setAll(true);
-        setPast(false);
-        setUpcoming(false);
-    };
-    const togglePast = () => {
-        console.log("toggle past");
-        setAll(false);
-        setPast(true);
-        setUpcoming(false);
-    };
-    const toggleUpcoming = () => {
-        console.log("toggle upcoming");
-        setAll(false);
-        setPast(false);
-        setUpcoming(true);
-    };
-
+  if (eventsLoading)
     return (
+      <div className="flex grow">
+        <LoadingPage />
+      </div>
+    );
+
+  if (!data) return <div>Something went wrong</div>;
+
+  return (
     <div className="flex grow flex-col items-center overflow-x-hidden">
       <div className="inline-flex rounded-md shadow-sm" role="group">
         <button
@@ -120,9 +119,11 @@ export const EventList = () => {
 
       {all && (
         <div className="h-full w-full">
-          {data?.filter((event) => event.event.published).map((fullPost) => (
-            <EventView {...fullPost} key={fullPost.event.id} />
-          ))}
+          {data
+            ?.filter((event) => event.event.published)
+            .map((fullPost) => (
+              <EventView {...fullPost} key={`${fullPost.event.id}-all`} />
+            ))}
         </div>
       )}
       {!all && (
