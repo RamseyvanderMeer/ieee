@@ -25,10 +25,8 @@ import { EffectCards } from "swiper";
 
 type EventWithUser = RouterOutputs["events"]["getAll"][number];
 export const EventView = (props: EventWithUser) => {
-  const ctx = api.useContext();
 
-  const { event, author } = props;
-  const { user } = useUser();
+  const { event } = props;
     return (
       <>
         <div

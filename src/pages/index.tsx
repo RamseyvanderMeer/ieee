@@ -2,8 +2,9 @@ import { type NextPage } from "next";
 
 import { Landing } from "~/components/landing";
 import { Contact } from "~/components/contact";
-import { About } from "~/components/about";
-import { Event } from "~/components/event"
+import { AboutSection } from "~/components/aboutsection";
+import { Event } from "~/components/event";
+import { SponsorSlides } from "~/components/sponsorslides";
 
 const Home: NextPage = () => {
   //   const { isLoaded: userLoaded } = useUser();
@@ -16,10 +17,11 @@ const Home: NextPage = () => {
 
   return (
     <div>
-        <Landing />
-              <About />
-<Event />
-        <Contact />
+      <Landing />
+      <AboutSection />
+      <Event />
+      <SponsorSlides />
+      <Contact />
     </div>
   );
 };
