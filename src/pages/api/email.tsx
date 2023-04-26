@@ -3,6 +3,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import type { NextApiRequest, NextApiResponse } from "next";
 import sgMail from "@sendgrid/mail";
+import { Ratelimit } from "@upstash/ratelimit"; // for deno: see above
+import { Redis } from "@upstash/redis";
+import { TRPCError } from "@trpc/server";
+
 
 export default async function handler(
   req: NextApiRequest,
@@ -17,6 +21,12 @@ export default async function handler(
       sender: string;
         email: string;
   }
+
+    const ratelimit = new Ratelimit({
+    redis: Redis.fromEnv(),
+    limiter: Ratelimit.slidingWindow(2, "1 m"),
+    analytics: true,
+  });
 
   const { message, subject, sender, email } = req.body as Email;
 
@@ -324,6 +334,12 @@ export default async function handler(
   } as MailDataRequired;
 
   try {
+
+    const { success } = await ratelimit.limit(email);
+
+    if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS" });
+
+
       const response = await sgMail.send(msg);
     if (response[0].statusCode === 400) {
       res.status(400).json({ message: "Email not sent" });

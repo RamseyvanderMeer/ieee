@@ -4,6 +4,20 @@ import { api } from "~/utils/api";
 import { EventPage } from "~/components/eventpage";
 import { generateSSGHelper } from "~/server/helpers/ssgHelper";
 
+
+// export const revalidate = 60 * 60; // 1 hours
+
+// export const generateStaticParams = () => {
+//     const { data } = api.events.getAll.useQuery();
+//     if (!data) return [];
+//     return data.map((event) => ({
+//         params: {
+//             id: event.event.id,
+//         },
+//     }));
+// };
+
+
 const SingleEventPage: NextPage<{ id: string }> = ({ id }) => {
   const { data } = api.events.getById.useQuery({
     id,

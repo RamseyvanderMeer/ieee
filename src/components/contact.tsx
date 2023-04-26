@@ -1,9 +1,13 @@
-import React, {useState} from 'react'
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-misused-promises */
+import React, { useState } from "react";
 import axios from "axios";
-
+import { useUser } from "@clerk/nextjs";
 
 export const Contact = () => {
-        const [message, setMessage] = useState("");
+  const { user, isSignedIn } = useUser();
+
+  const [message, setMessage] = useState("");
   const [subject, setSubject] = useState("");
   const [sender, setSender] = useState("");
   const [email, setEmail] = useState("");
@@ -11,25 +15,36 @@ export const Contact = () => {
   const SendMail = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/api/email", {
-        message,
-        subject,
-        sender,
-        email,
-      });
-      if (response.status === 200) {
-        setMessage("");
-        setSubject("");
-        setSender("");
-        setEmail("");
+      if (isSignedIn) {
+        const signedInSender = user?.username;
+        const signedInEmail = user?.emailAddresses?.[0]?.emailAddress;
+        const response = await axios.post("/api/email", {
+          message,
+          subject,
+          sender : signedInSender,
+          email : signedInEmail,
+        });
+        if (response.status === 200) {
+          setMessage("");
+          setSubject("");
+          setSender("");
+          setEmail("");
+        }
+      } else {
+        const response = await axios.post("/api/email", {
+          message,
+          subject,
+          sender,
+          email,
+        });
+        if (response.status === 200) {
+          setMessage("");
+          setSubject("");
+          setSender("");
+          setEmail("");
+        }
       }
       alert("Message Sent");
-    //   const nextURL = "/";
-    //   const nextTitle = "Home Page";
-    //   const nextState = { additionalInformation: "Updated the URL with JS" };
-
-      // This will create a new entry in the browser's history, without reloading
-    //   window.history.pushState(nextState, nextTitle, nextURL);
     } catch (error) {
       console.log(error);
     }
@@ -44,159 +59,174 @@ export const Contact = () => {
   };
 
   return (
-      <div className="relative flex min-h-screen flex-col justify-center overflow-hidden w-screen">
-        <div className="m-auto w-full rounded-md bg-white p-6 shadow-xl shadow-rose-600/40 ring-2 ring-indigo-600 lg:max-w-xl">
-          <h1 className="text-center text-4xl font-bold uppercase text-indigo-700">
-            Contact:
-          </h1>
-                <form className="mt-6" onSubmit={SendMail} onReset={ClearForm}>
-                    <div className="mb-2">
-              <label>
-                <span className="text-gray-700">Your name</span>
-                <input
-                  type="text"
-                  name="name"
-                  value={sender}
-                  required
-                  onChange={(e) => setSender(e.target.value)}
-                  className="
-
-            mt-2
-            block w-full rounded-md border-gray-300
-            px-2
-            py-2
-            text-black
-            shadow-sm
-            focus:border-indigo-300
-            focus:ring
-            focus:ring-indigo-200
-            focus:ring-opacity-50
-
-          "
-                  placeholder="example"
-                />
-              </label>
+    <div className="relative flex min-h-screen w-screen flex-col items-center justify-center overflow-hidden ">
+      <form
+        onSubmit={SendMail}
+        onReset={ClearForm}
+        className="w-11/12 rounded-xl border-2  border-gray-400 p-6 md:w-6/12"
+      >
+        <h2 className="mb-8 text-6xl font-bold">Contact Us</h2>
+        {!isSignedIn && (
+          <div className="pt-2">
+            <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+              Username
+            </label>
+            <div className="flex">
+              <span className="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-200 px-3 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-600 dark:text-gray-400">
+                @
+              </span>
+              <input
+                type="text"
+                name="name"
+                value={sender}
+                required
+                onChange={(e) => setSender(e.target.value)}
+                className="block w-full min-w-0 flex-1 rounded-none rounded-r-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                placeholder="Your Username"
+              />
             </div>
-            <div className="mb-2">
-              <label>
-                <span className="text-gray-700">Email address</span>
-                <input
-                  name="email"
-                  type="email"
-                  value={email}
-                  required
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="
-            mt-2
-            block
-            w-full rounded-md border-gray-300
-            px-2
-            py-2
-            text-black
-            shadow-sm
-            focus:border-indigo-300
-            focus:ring
-            focus:ring-indigo-200
-            focus:ring-opacity-50
-
-          "
-                  placeholder="example@example.com"
-                />
-              </label>
+          </div>
+        )}
+        {isSignedIn && (
+          <div className="pt-2">
+            <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+              Username
+            </label>
+            <div className="flex">
+              <span className="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-200 px-3 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-600 dark:text-gray-400">
+                @
+              </span>
+              <input
+                type="text"
+                id="website-admin"
+                className="block w-full min-w-0 flex-1 rounded-none rounded-r-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                placeholder={user?.username as string}
+                disabled
+              />
             </div>
-            <div className="mb-2">
-              <label>
-                <span className="text-gray-700">Subject</span>
-                <input
-                  name="subject"
-                  type="text"
-                  value={subject}
-                  required
-                  onChange={(e) => setSubject(e.target.value)}
-                  className="
-            mt-2
-            block
-            w-full rounded-md border-gray-300
-            px-2
-            py-2
-            text-black
-            shadow-sm
-            focus:border-indigo-300
-            focus:ring
-            focus:ring-indigo-200
-            focus:ring-opacity-50
-
-          "
-                  placeholder="subject"
-                />
-              </label>
+          </div>
+        )}
+        {!isSignedIn && (
+          <div className="pt-2">
+            <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+              Your Email
+            </label>
+            <div className="flex">
+              <div className="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-200 px-3 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-600 dark:text-gray-400">
+                <svg
+                  aria-hidden="true"
+                  className="h-5 w-5 text-gray-500 dark:text-gray-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                  <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                </svg>
+              </div>
+              <input
+                name="email"
+                type="email"
+                className="block w-full min-w-0 flex-1 rounded-none rounded-r-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                placeholder="netid@illinois.edu"
+              />
             </div>
-            <div className="mb-2">
-              <label>
-                <span className="text-gray-700">Message</span>
-                <textarea
-                  name="message"
-                  value={message}
-                  required
-                  onChange={(e) => setMessage(e.target.value)}
-                  className="
-            mt-2
-            block
-            w-full rounded-md border-gray-300
-            px-2
-            py-2
-            text-black
-            shadow-sm
-            focus:border-indigo-300
-            focus:ring
-            focus:ring-indigo-200
-            focus:ring-opacity-50
-          "
-                  rows={5}
-                ></textarea>
-              </label>
+          </div>
+        )}
+        {isSignedIn && (
+          <div className="pt-2">
+            <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+              Your Email
+            </label>
+            <div className="flex">
+              <span className="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-200 px-3 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-600 dark:text-gray-400">
+                <svg
+                  aria-hidden="true"
+                  className="h-5 w-5 text-gray-500 dark:text-gray-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                  <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                </svg>
+              </span>
+              <input
+                name="email"
+                type="email"
+                value={email}
+                required
+                onChange={(e) => setEmail(e.target.value)}
+                className="block w-full min-w-0 flex-1 rounded-none rounded-r-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                placeholder={user?.emailAddresses[0]?.emailAddress as string}
+                disabled
+              />
             </div>
-
-            <div className="mb-6 flex w-full flex-row justify-between">
-              <button
-                type="reset"
-                className="
-            focus:shadow-outline
-            mt-2
-            h-10
-            rounded-lg
-            bg-indigo-700
-            px-5
-            text-indigo-100
-            transition-colors
-            duration-150
-            hover:bg-indigo-800
-          "
-              >
-                Clear
-              </button>
-
-              <button
-                type="submit"
-                className="
-            focus:shadow-outline
-            mt-2
-            h-10
-            rounded-lg
-            bg-indigo-700
-            px-5
-            text-indigo-100
-            transition-colors
-            duration-150
-            hover:bg-indigo-800
-          "
-              >
-                Submit
-              </button>
-            </div>
-            <div></div>
-          </form>
+          </div>
+        )}
+        <div className="pt-2">
+          <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+            Subject
+          </label>
+          <input
+            name="subject"
+            type="text"
+            value={subject}
+            required
+            onChange={(e) => setSubject(e.target.value)}
+            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-xs"
+          />
         </div>
-      </div>
+        <div className="mb-6 pt-2">
+          <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+            Message
+          </label>
+          <input
+            name="message"
+            value={message}
+            required
+            onChange={(e) => setMessage(e.target.value)}
+            className="sm:text-md block w-full rounded-lg border border-gray-300 bg-gray-50 p-4 text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+          />
+        </div>
+        <div className="mb-6 flex w-full flex-row justify-between">
+          <button
+            type="reset"
+            className="
+            focus:shadow-outline
+            mt-2
+            h-10
+            rounded-lg
+            bg-gray-700
+            px-5
+            text-indigo-100
+            transition-colors
+            duration-150
+            hover:bg-indigo-900
+          "
+          >
+            Clear
+          </button>
+
+          <button
+            type="submit"
+            className="
+            focus:shadow-outline
+            mt-2
+            h-10
+            rounded-lg
+            bg-gray-700
+            px-5
+            text-indigo-100
+            transition-colors
+            duration-150
+            hover:bg-indigo-900
+          "
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
   );
-}
+};
