@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useUser } from "@clerk/nextjs";
+import toast from "react-hot-toast";
 
 export const Contact = () => {
   const { user, isSignedIn } = useUser();
@@ -44,7 +45,8 @@ export const Contact = () => {
           setEmail("");
         }
       }
-      alert("Message Sent");
+    //   alert("Message Sent");
+        toast.success("Message Sent");
     } catch (error) {
       console.log(error);
     }
