@@ -4,12 +4,8 @@ import type { RouterOutputs } from "~/utils/api";
 import dayjs from "dayjs";
 import Image from "next/image";
 import Link from "next/link";
-import { api } from "~/utils/api";
-import { useUser } from "@clerk/nextjs";
 
 import relativeTime from "dayjs/plugin/relativeTime";
-import toast from "react-hot-toast";
-import { LoadingSpinner } from "./loading";
 
 dayjs.extend(relativeTime);
 
