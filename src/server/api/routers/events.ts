@@ -212,6 +212,7 @@ export const eventsRouter = createTRPCRouter({
           name: input.name,
           description: input.description,
           code: input.code ? input.code : "",
+          date: input.date,
           links: input.links ? input.links : ([] as string[]),
           tags: input.tags ? input.tags : [],
           catagory: input.catagory
