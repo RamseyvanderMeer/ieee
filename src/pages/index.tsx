@@ -3,7 +3,8 @@ import { type NextPage } from "next";
 import { Landing } from "~/components/landing";
 import { Contact } from "~/components/contact";
 import { AboutSection } from "~/components/aboutsection";
-import { Event } from "~/components/event";
+// import { Event } from "~/components/event";
+import { CalendarComponent } from "~/components/CalendarComponent";
 import { SponsorSlides } from "~/components/sponsorslides";
 
 const Home: NextPage = () => {
@@ -19,8 +20,9 @@ const Home: NextPage = () => {
     <div>
       <Landing />
       <AboutSection />
-      <Event />
-      <SponsorSlides />
+          {/* <Event /> */}
+        <CalendarComponent />
+      {/* <SponsorSlides /> */}
       <Contact />
     </div>
   );

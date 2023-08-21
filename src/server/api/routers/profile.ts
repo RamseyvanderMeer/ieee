@@ -14,6 +14,8 @@ export const profileRouter = createTRPCRouter({
         username: [input.username],
       });
 
+        console.log("user", user?.username, input.username)
+
       if (!user) {
         // if we hit here we need a unsantized username so hit api once more and find the user.
         const users = (

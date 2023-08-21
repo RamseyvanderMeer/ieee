@@ -8,6 +8,8 @@ import logo from "~/images/logo.png";
 export const Nav: React.FC = () => {
   const { user, isSignedIn } = useUser();
 
+    console.log(user?.username)
+
   const [active, setActive] = useState(false);
 
   const handleClick = () => {
@@ -70,7 +72,7 @@ export const Nav: React.FC = () => {
           className={`${
             active
               ? "inline-block h-auto max-h-screen translate-x-0"
-              : "h-0 md:translate-x-0 md:opacity-100 md:relative overflow-hidden opacity-0 w-full flex-col items-start md:ml-auto md:inline-flex md:h-auto  md:w-auto md:flex-row md:items-center"
+              : "h-0 w-full flex-col items-start overflow-hidden opacity-0 md:relative md:ml-auto md:inline-flex md:h-auto md:w-auto md:translate-x-0  md:flex-row md:items-center md:opacity-100"
           }   w-full transition duration-500 ease-in-out md:inline-flex md:w-auto md:flex-grow`}
         >
           <div className="flex w-full flex-col items-start md:ml-auto md:inline-flex md:h-auto  md:w-auto md:flex-row md:items-center">
@@ -79,7 +81,7 @@ export const Nav: React.FC = () => {
                 Home
               </div>
             </Link>
-            <Link href="/events">
+            <Link href="/calendar">
               <div className="w-full items-center justify-center rounded px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white md:inline-flex md:w-auto">
                 events
               </div>

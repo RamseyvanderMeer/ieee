@@ -35,7 +35,7 @@ export const SponsorSlides = () => {
         <SwiperSlide className="flex h-full w-full items-center justify-center bg-white text-center text-black">
           Slide 4
         </SwiperSlide>
-        <SwiperSlide className="flex h-full w-full items-center justify-center bg-white text-center text-black">
+        {/* <SwiperSlide className="flex h-full w-full items-center justify-center bg-white text-center text-black">
           Slide 5
         </SwiperSlide>
         <SwiperSlide className="flex h-full w-full items-center justify-center bg-white text-center text-black">
@@ -49,7 +49,7 @@ export const SponsorSlides = () => {
         </SwiperSlide>
         <SwiperSlide className="flex h-full w-full items-center justify-center bg-white text-center text-black">
           Slide 9
-        </SwiperSlide>
+        </SwiperSlide> */}
       </Swiper>
     </div>
   );
