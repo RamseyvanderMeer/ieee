@@ -2,7 +2,7 @@ import React from "react";
 
 export const CalendarComponent = () => {
     return (
-      <div className="flex  h-[80vh] w-screen justify-center flex-wrap items-center">
+      <div className="flex  min-h-[80vh] w-screen justify-center flex-wrap items-center">
         <div className="cal-text text-center w-full m-4">
           <h1 className="text-5xl font-bold">Calendar</h1>
           <a

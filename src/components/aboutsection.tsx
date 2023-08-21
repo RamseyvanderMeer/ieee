@@ -1,13 +1,14 @@
 import React from 'react'
 import { useUser, SignUpButton } from "@clerk/nextjs";
+import Link from "next/link";
 
 export const AboutSection = () => {
-  const { isSignedIn } = useUser();
+    const { user, isSignedIn } = useUser();
 
   return (
     <div className="relative flex h-fit min-h-[75vh] w-screen flex-col items-center justify-center">
       <h2 className="m-4 text-5xl font-bold">About</h2>
-      <p className="w-6/12 text-xl text-center md:max-w-screen-md">
+      <p className="w-7/12 text-center text-xl md:max-w-screen-md">
         IEEE (pronounced I-Triple-E), which stands for the Institute of
         Electrical and Electronics Engineers, is known as the world’s largest
         professional association for the advancement of technology. Here at the
@@ -20,8 +21,16 @@ export const AboutSection = () => {
         opportunities. Please take a look at what we have to offer, and come
         visit the office located at ECEB.
       </p>
-
-      {!isSignedIn && <SignUpButton />}
+      {!isSignedIn && (
+        <div className="w-full items-center justify-center rounded px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white md:inline-flex md:w-auto border-white border-2 m-4">
+          <SignUpButton />
+        </div>
+      )}
+      {isSignedIn && user && (
+        <div className="w-full items-center justify-center rounded px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white md:inline-flex md:w-auto">
+          <Link href={`/@${user.username as string}`}>Profile</Link>
+        </div>
+      )}
     </div>
   );
 };
