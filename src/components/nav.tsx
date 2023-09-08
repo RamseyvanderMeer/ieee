@@ -83,7 +83,7 @@ export const Nav: React.FC = () => {
             </Link>
             <Link href="/calendar">
               <div className="w-full items-center justify-center rounded px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white md:inline-flex md:w-auto">
-                events
+                Events
               </div>
             </Link>
             <Link href="/about">
