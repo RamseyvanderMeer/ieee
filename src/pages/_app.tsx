@@ -3,7 +3,7 @@ import { type AppType } from "next/app";
 import { api } from "~/utils/api";
 
 import "~/styles/globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
+import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { Toaster } from "react-hot-toast";
 import { PageLayout } from "~/components/layout";
 
@@ -11,7 +11,7 @@ import Head from "next/head";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
-    <ClerkProvider {...pageProps}>
+    <UserProvider {...pageProps}>
       <Head>
         <title>IEEE UIUC</title>
         <link rel="icon" href="/favicon.ico" />
@@ -43,7 +43,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
       <PageLayout>
         <Component {...pageProps} />
       </PageLayout>
-    </ClerkProvider>
+    </UserProvider>
   );
 };
 

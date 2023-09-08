@@ -43,7 +43,7 @@ export const createTRPCContext = (opts: CreateNextContextOptions) => {
  */
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
-import { getAuth } from "@clerk/nextjs/server";
+import { getAuth } from "@auth0/nextjs-auth0/client/server";
 import { ZodError } from "zod";
 
 const t = initTRPC.context<typeof createTRPCContext>().create({

@@ -2,7 +2,7 @@ import React from "react";
 import { LoadingSpinner } from "~/components/loading";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { UserButton, useUser } from "@clerk/nextjs";
+import { UserButton, useUser } from "@auth0/nextjs-auth0/client";
 import { api } from "~/utils/api";
 
 export const CreatePostWizard = () => {

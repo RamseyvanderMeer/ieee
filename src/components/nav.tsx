@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useUser, SignInButton, SignOutButton } from "@clerk/nextjs";
+import {
+  useUser,
+  SignInButton,
+  SignOutButton,
+} from "@auth0/nextjs-auth0/client";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "~/images/logo.png";
@@ -8,7 +12,7 @@ import logo from "~/images/logo.png";
 export const Nav: React.FC = () => {
   const { user, isSignedIn } = useUser();
 
-    console.log(user?.username)
+  console.log(user?.username);
 
   const [active, setActive] = useState(false);
 

@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import Image from "next/image";
 import Link from "next/link";
 import { api } from "~/utils/api";
-import { useUser } from "@clerk/nextjs";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 import relativeTime from "dayjs/plugin/relativeTime";
 import toast from "react-hot-toast";
@@ -76,7 +76,7 @@ export const PostView = (props: PostWithUser) => {
           )}
         </div>
         {/* <Link href={`/post/${post.id}`} className="text-2xl"> */}
-              {post.content}
+        {post.content}
         {/* </Link> */}
       </div>
     </div>

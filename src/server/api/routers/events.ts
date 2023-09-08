@@ -1,4 +1,4 @@
-import { clerkClient } from "@clerk/nextjs/server";
+import { clerkClient } from "@auth0/nextjs-auth0/client/server";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
@@ -89,13 +89,13 @@ export const eventsRouter = createTRPCRouter({
   }),
 
   getOne: publicProcedure.query(async ({ ctx }) => {
-      const event = await ctx.prisma.event.findMany({
-        where: {
-          published: true,
-        },
-        take: 1,
-        orderBy: [{ date: "desc" }],
-      });
+    const event = await ctx.prisma.event.findMany({
+      where: {
+        published: true,
+      },
+      take: 1,
+      orderBy: [{ date: "desc" }],
+    });
 
     return addUserDataToEvents(event);
   }),

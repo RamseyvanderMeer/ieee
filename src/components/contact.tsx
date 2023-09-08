@@ -2,11 +2,11 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useState } from "react";
 import axios from "axios";
-import { useUser } from "@clerk/nextjs";
+import { useUser } from "@auth0/nextjs-auth0/client";
 import toast from "react-hot-toast";
 
 export const Contact = () => {
-  const { user, isSignedIn } = useUser();
+  const { user, isLoading } = useUser();
 
   const [message, setMessage] = useState("");
   const [subject, setSubject] = useState("");
@@ -16,9 +16,9 @@ export const Contact = () => {
   const SendMail = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      if (isSignedIn) {
+      if (!isLoading) {
         const signedInSender = user?.username;
-        const signedInEmail = user?.emailAddresses?.[0]?.emailAddress;
+        const signedInEmail = user?.email;
         const response = await axios.post("/api/email", {
           message,
           subject,
@@ -45,8 +45,8 @@ export const Contact = () => {
           setEmail("");
         }
       }
-    //   alert("Message Sent");
-        toast.success("Message Sent");
+      //   alert("Message Sent");
+      toast.success("Message Sent");
     } catch (error) {
       console.log(error);
     }
@@ -62,7 +62,7 @@ export const Contact = () => {
 
   return (
     <div className="relative flex min-h-screen w-screen flex-col items-center justify-center overflow-hidden ">
-      {!isSignedIn && (
+      {isLoading && (
         <form className="w-11/12 rounded-xl border-2  border-gray-400 p-6 md:w-6/12">
           <h2 className="mb-8 text-6xl font-bold">Contact Us</h2>
           <div className="pt-2">
@@ -166,7 +166,7 @@ export const Contact = () => {
           </div>
         </form>
       )}
-      {isSignedIn && (
+      {!isLoading && (
         <form
           onSubmit={SendMail}
           onReset={ClearForm}
@@ -214,7 +214,7 @@ export const Contact = () => {
                 required
                 onChange={(e) => setEmail(e.target.value)}
                 className="block w-full min-w-0 flex-1 rounded-none rounded-r-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                placeholder={user?.emailAddresses[0]?.emailAddress as string}
+                placeholder={user?.email as string}
                 disabled
               />
             </div>

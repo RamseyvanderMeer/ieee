@@ -11,6 +11,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@auth0/nextjs-auth0": "^3.1.0",
     "@clerk/nextjs": "^4.11.7",
     "@fullcalendar/daygrid": "^6.1.8",
     "@fullcalendar/google-calendar": "^6.1.8",
