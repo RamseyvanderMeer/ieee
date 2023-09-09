@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export const Landing = () => {
   return (
-    <div className="relative flex h-screen w-screen flex-col items-center justify-center">
+    <div className="relative flex h-screen w-screen overflow-hidden flex-col items-center justify-center">
       <div className="relative -top-12 z-10 text-white text-center">
         <h1 className="m-10 text-9xl font-bold">IEEE UIUC</h1>
         <div className="font-extralight flex flex-col items-center justify-center text-3xl ">
