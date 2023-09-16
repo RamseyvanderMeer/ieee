@@ -28,11 +28,11 @@ export const AboutSection = () => {
           </div>
         )} */}
         {isSignedIn && user && (
-          <div className="w-full w-[30vw] items-center justify-center rounded border-2 border-white p-3 px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white md:inline-flex md:w-auto">
+          <div className="w-full w-[30vw] p-3 items-center justify-center rounded border-2 border-white p-3 px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white md:inline-flex md:w-auto">
             <Link href={`/@${user.username as string}`}>Profile</Link>
           </div>
         )}
-        <div className="w-[30vw] w-full items-center justify-center rounded border-2 border-white p-3 px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white md:inline-flex md:w-auto">
+        <div className="w-[30vw] w-full p-3 items-center justify-center rounded border-2 border-white p-3 px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white md:inline-flex md:w-auto">
           <Link href="https://discord.gg/Gc9qPBxzbS">Join Discord</Link>
         </div>
       </div>
