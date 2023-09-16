@@ -21,18 +21,18 @@ export const AboutSection = () => {
         events – stay updated through our weekly email updates. We look forward
         to seeing you soon!
       </p>
-      <div className="flex md:flex-row flex-col">
+      <div className="flex flex-col md:flex-row">
         {/* {!isSignedIn && (
           <div className="m-4 w-full w-[30vw] items-center justify-center rounded border-2 border-white px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white md:inline-flex md:w-auto">
             <SignUpButton />
           </div>
         )} */}
         {isSignedIn && user && (
-          <div className="w-full w-[30vw] items-center justify-center rounded p-3 px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white md:inline-flex md:w-auto">
+          <div className="w-full w-[30vw] items-center justify-center rounded border-2 border-white p-3 px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white md:inline-flex md:w-auto">
             <Link href={`/@${user.username as string}`}>Profile</Link>
           </div>
         )}
-        <div className="w-[30vw] w-full items-center justify-center rounded p-3 px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white md:inline-flex md:w-auto">
+        <div className="w-[30vw] w-full items-center justify-center rounded border-2 border-white p-3 px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white md:inline-flex md:w-auto">
           <Link href="https://discord.gg/Gc9qPBxzbS">Join Discord</Link>
         </div>
       </div>
