@@ -32,7 +32,7 @@ export const AboutSection = () => {
             <Link href={`/@${user.username as string}`}>Profile</Link>
           </div>
         )}
-        <div className="w-[30vw] w-full border-white border-2 items-center justify-center mx-9 rounded p-3 px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white md:inline-flex md:w-auto">
+        <div className="w-[30vw] w-full items-center justify-center rounded p-3 px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white md:inline-flex md:w-auto">
           <Link href="https://discord.gg/Gc9qPBxzbS">Join Discord</Link>
         </div>
       </div>
