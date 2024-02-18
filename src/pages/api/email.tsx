@@ -6,23 +6,26 @@ import sgMail from "@sendgrid/mail";
 import { Ratelimit } from "@upstash/ratelimit"; // for deno: see above
 import { Redis } from "@upstash/redis";
 import { TRPCError } from "@trpc/server";
-
+import { getServerSession } from "next-auth/next";
+import authOptions from "./auth/[...nextauth]";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  const session = await getServerSession(req, res, authOptions);
 
   sgMail.setApiKey(process.env.SENDGRID_API_KEY as string);
 
   interface Email {
     message: string;
     subject: string;
-      sender: string;
-        email: string;
+    sender: string;
+    email: string;
   }
 
-    const ratelimit = new Ratelimit({
+  const ratelimit = new Ratelimit({
     redis: Redis.fromEnv(),
     limiter: Ratelimit.slidingWindow(2, "1 m"),
     analytics: true,
@@ -39,7 +42,6 @@ export default async function handler(
     text: string;
     html: string;
   }
-
 
   const msg = {
     to: "ramvandermeer@gmail.com",
@@ -334,19 +336,24 @@ export default async function handler(
   } as MailDataRequired;
 
   try {
+    if (session) {
+      const { success } = await ratelimit.limit(email);
 
-    const { success } = await ratelimit.limit(email);
-
-    if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS" });
-
+      if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS" });
 
       const response = await sgMail.send(msg);
-    if (response[0].statusCode === 400) {
-      res.status(400).json({ message: "Email not sent" });
-    } else if (response[0].statusCode === 200 || response[0].statusCode === 202) {
-      res.status(200).json({ message: "Email sent" });
+      if (response[0].statusCode === 400) {
+        res.status(400).json({ message: "Email not sent" });
+      } else if (
+        response[0].statusCode === 200 ||
+        response[0].statusCode === 202
+      ) {
+        res.status(200).json({ message: "Email sent" });
+      } else {
+        res.status(500).json({ message: "Something went wrong" });
+      }
     } else {
-      res.status(500).json({ message: "Something went wrong" });
+      res.status(401).json({ message: "Unauthorized" });
     }
   } catch (error) {
     res.status(500).json({ message: "Error something went wrong" });

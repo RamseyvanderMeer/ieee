@@ -3,16 +3,21 @@ import { type AppType } from "next/app";
 import { api } from "~/utils/api";
 
 import "~/styles/globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "react-hot-toast";
 import { PageLayout } from "~/components/layout";
 import { Analytics } from "@vercel/analytics/react";
+import { SessionProvider } from "next-auth/react";
+import type { AppProps } from "next/app";
 
 import Head from "next/head";
 
-const MyApp: AppType = ({ Component, pageProps }) => {
+const MyApp: AppType = ({
+  Component,
+  pageProps: { session, ...pageProps },
+}: AppProps) => {
   return (
-    <ClerkProvider {...pageProps}>
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    <SessionProvider session={session}>
       <Head>
         <title>IEEE UIUC</title>
         <link rel="icon" href="/favicon.ico" />
@@ -51,7 +56,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         <Component {...pageProps} />
       </PageLayout>
       <Analytics />
-    </ClerkProvider>
+    </SessionProvider>
   );
 };
 

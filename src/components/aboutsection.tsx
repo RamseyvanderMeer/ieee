@@ -1,9 +1,10 @@
 import React from "react";
-import { useUser, SignUpButton } from "@clerk/nextjs";
 import Link from "next/link";
+import { useSession, signIn } from "next-auth/react";
+
 
 export const AboutSection = () => {
-  const { user, isSignedIn } = useUser();
+  const { data: session, status } = useSession();
 
   return (
     <div className="relative flex h-fit min-h-[75vh] w-screen flex-col items-center justify-center">
@@ -22,20 +23,20 @@ export const AboutSection = () => {
         to seeing you soon!
       </p>
       <div className="flex flex-col md:flex-row">
-        {/* {!isSignedIn && (
+        {status !== "authenticated" && status !== "loading" && (
           <div className="m-4 w-full w-[30vw] items-center justify-center rounded border-2 border-white px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white md:inline-flex md:w-auto">
-            <SignUpButton />
+            <button onClick={() => signIn("github")}>Sign up</button>
           </div>
-        )} */}
-        {isSignedIn && user && (
+        )}
+        {/* {isSignedIn && user && (
           <div className="m-3 w-full text-center w-[34vw] items-center justify-center rounded border-2 border-white p-3 px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white md:inline-flex md:w-auto">
             <Link href={`/@${user.username as string}`}>Profile</Link>
           </div>
-        )}
-        <div className="m-3 text-center w-[34vw] w-full items-center justify-center rounded border-2 border-white p-3 px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white md:inline-flex md:w-auto">
+        )} */}
+        <div className="m-3 w-[34vw] w-full items-center justify-center rounded border-2 border-white p-3 px-3 py-2 text-center font-bold text-white hover:bg-slate-800 hover:text-white md:inline-flex md:w-auto">
           <Link href="https://discord.gg/Gc9qPBxzbS">Join Discord</Link>
         </div>
-        <div className="m-3 text-center w-[34vw] w-full items-center justify-center rounded border-2 border-white p-3 px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white md:inline-flex md:w-auto">
+        <div className="m-3 w-[34vw] w-full items-center justify-center rounded border-2 border-white p-3 px-3 py-2 text-center font-bold text-white hover:bg-slate-800 hover:text-white md:inline-flex md:w-auto">
           <Link href="https://discord.gg/Gc9qPBxzbS">Resume Book</Link>
         </div>
       </div>
