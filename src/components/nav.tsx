@@ -10,25 +10,12 @@ export const Nav: React.FC = () => {
   const { data: session, status } = useSession();
 
   const [active, setActive] = useState(false);
-  const [isSignedIn, setIsSignedIn] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+
 
   const handleClick = () => {
     setActive(!active);
   };
 
-  const router = useRouter();
-
-  useEffect(() => {
-    if (status === "loading") {
-      setIsLoading(true);
-    } else {
-      setIsLoading(false);
-    }
-    if (status === "authenticated") {
-      setIsSignedIn(true);
-    }
-  }, []);
 
   return (
     <>
@@ -95,7 +82,7 @@ export const Nav: React.FC = () => {
                 Contact
               </div>
             </Link>
-            {!isSignedIn && !isLoading && (
+            {status !== "authenticated" && status !== "loading" && (
               <div className="w-full items-center justify-center rounded px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white md:inline-flex md:w-auto">
                 <button onClick={signIn as any}>Sign In</button>
               </div>
@@ -105,7 +92,7 @@ export const Nav: React.FC = () => {
                 <Link href={`/@${user.username as string}`}>Profile</Link>
               </div>
             )} */}
-            {isSignedIn && !isLoading && (
+            {status === "authenticated" && status !== "loading" && (
               <div className="w-full items-center justify-center rounded px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white md:inline-flex md:w-auto">
                 <button onClick={signOut as any}>Sign out</button>
               </div>
