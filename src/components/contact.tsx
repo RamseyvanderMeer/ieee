@@ -2,11 +2,10 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useState } from "react";
 import axios from "axios";
-import { useUser } from "@clerk/nextjs";
 import toast from "react-hot-toast";
 
 export const Contact = () => {
-  const { user, isSignedIn } = useUser();
+
 
   const [message, setMessage] = useState("");
   const [subject, setSubject] = useState("");
@@ -16,35 +15,35 @@ export const Contact = () => {
   const SendMail = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      if (isSignedIn) {
-        const signedInSender = user?.username;
-        const signedInEmail = user?.emailAddresses?.[0]?.emailAddress;
-        const response = await axios.post("/api/email", {
-          message,
-          subject,
-          sender: signedInSender,
-          email: signedInEmail,
-        });
-        if (response.status === 200) {
-          setMessage("");
-          setSubject("");
-          setSender("");
-          setEmail("");
-        }
-      } else {
-        const response = await axios.post("/api/email", {
-          message,
-          subject,
-          sender,
-          email,
-        });
-        if (response.status === 200) {
-          setMessage("");
-          setSubject("");
-          setSender("");
-          setEmail("");
-        }
-      }
+    //   if (isSignedIn) {
+    //     const signedInSender = user?.username;
+    //     const signedInEmail = user?.emailAddresses?.[0]?.emailAddress;
+    //     const response = await axios.post("/api/email", {
+    //       message,
+    //       subject,
+    //       sender: signedInSender,
+    //       email: signedInEmail,
+    //     });
+    //     if (response.status === 200) {
+    //       setMessage("");
+    //       setSubject("");
+    //       setSender("");
+    //       setEmail("");
+    //     }
+    //   } else {
+    //     const response = await axios.post("/api/email", {
+    //       message,
+    //       subject,
+    //       sender,
+    //       email,
+    //     });
+    //     if (response.status === 200) {
+    //       setMessage("");
+    //       setSubject("");
+    //       setSender("");
+    //       setEmail("");
+    //     }
+    //   }
     //   alert("Message Sent");
         toast.success("Message Sent");
     } catch (error) {
@@ -62,7 +61,7 @@ export const Contact = () => {
 
   return (
     <div className="relative flex min-h-screen w-screen flex-col items-center justify-center overflow-hidden ">
-      {!isSignedIn && (
+      {/* {!isSignedIn && (
         <form className="w-11/12 rounded-xl border-2  border-gray-400 p-6 md:w-6/12">
           <h2 className="mb-8 text-6xl font-bold">Contact Us</h2>
           <div className="pt-2">
@@ -165,8 +164,8 @@ export const Contact = () => {
             </button>
           </div>
         </form>
-      )}
-      {isSignedIn && (
+      )} */}
+      {/* {isSignedIn && (
         <form
           onSubmit={SendMail}
           onReset={ClearForm}
@@ -282,7 +281,7 @@ export const Contact = () => {
             </button>
           </div>
         </form>
-      )}
+      )} */}
     </div>
   );
 };

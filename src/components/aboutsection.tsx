@@ -1,9 +1,7 @@
 import React from "react";
-import { useUser, SignUpButton } from "@clerk/nextjs";
 import Link from "next/link";
 
 export const AboutSection = () => {
-  const { user, isSignedIn } = useUser();
 
   return (
     <div className="relative flex h-fit min-h-[75vh] w-screen flex-col items-center justify-center">
@@ -27,11 +25,11 @@ export const AboutSection = () => {
             <SignUpButton />
           </div>
         )} */}
-        {isSignedIn && user && (
+        {/* {isSignedIn && user && (
           <div className="m-3 w-full text-center w-[34vw] items-center justify-center rounded border-2 border-white p-3 px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white md:inline-flex md:w-auto">
             <Link href={`/@${user.username as string}`}>Profile</Link>
           </div>
-        )}
+        )} */}
         <div className="m-3 text-center w-[34vw] w-full items-center justify-center rounded border-2 border-white p-3 px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white md:inline-flex md:w-auto">
           <Link href="https://discord.gg/Gc9qPBxzbS">Join Discord</Link>
         </div>

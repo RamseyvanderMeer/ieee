@@ -1,16 +1,17 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useUser, SignInButton, SignOutButton } from "@clerk/nextjs";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "~/images/logo.png";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 export const Nav: React.FC = () => {
-  const { user, isSignedIn } = useUser();
-
-    console.log(user?.username)
+  const { data: session, status } = useSession();
 
   const [active, setActive] = useState(false);
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleClick = () => {
     setActive(!active);
@@ -19,17 +20,15 @@ export const Nav: React.FC = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const handleRouteChange = () => {
-      // Do something here, such as track an analytics event
-      setActive(false);
-    };
-
-    router.events.on("routeChangeComplete", handleRouteChange);
-
-    return () => {
-      router.events.off("routeChangeComplete", handleRouteChange);
-    };
-  }, [router.events]);
+    if (status === "loading") {
+      setIsLoading(true);
+    } else {
+      setIsLoading(false);
+    }
+    if (status === "authenticated") {
+      setIsSignedIn(true);
+    }
+  }, []);
 
   return (
     <>
@@ -96,19 +95,19 @@ export const Nav: React.FC = () => {
                 Contact
               </div>
             </Link>
-            {!isSignedIn && (
+            {!isSignedIn && !isLoading && (
               <div className="w-full items-center justify-center rounded px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white md:inline-flex md:w-auto">
-                <SignInButton />
+                <button onClick={signIn as any}>Sign In</button>
               </div>
             )}
-            {isSignedIn && user && (
+            {/* {isSignedIn && user && (
               <div className="w-full items-center justify-center rounded px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white md:inline-flex md:w-auto">
                 <Link href={`/@${user.username as string}`}>Profile</Link>
               </div>
-            )}
-            {isSignedIn && user && (
+            )} */}
+            {isSignedIn && !isLoading && (
               <div className="w-full items-center justify-center rounded px-3 py-2 font-bold text-white hover:bg-slate-800 hover:text-white md:inline-flex md:w-auto">
-                <SignOutButton />
+                <button onClick={signOut as any}>Sign out</button>
               </div>
             )}
           </div>
