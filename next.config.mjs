@@ -9,7 +9,7 @@
 /** @type {import("next").NextConfig} */
 const config = {
   images: {
-    domains: ["images.clerk.dev", "www.gravatar.com"],
+    domains: [ "www.gravatar.com"],
     remotePatterns: [
       {
         protocol: "https",

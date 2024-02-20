@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import Image from "next/image";
 import Link from "next/link";
 import { api } from "~/utils/api";
-import { useUser } from "@clerk/nextjs";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 import relativeTime from "dayjs/plugin/relativeTime";
 import toast from "react-hot-toast";
@@ -39,7 +39,7 @@ export const EventPage = (props: EventWithUser) => {
     });
 
   const { event, author } = props;
-  const { user } = useUser();
+  const { data: session, status } = useSession();
   const [name, setName] = useState(event.name);
   const [description, setDescription] = useState(event.description);
   const [newDate, setDate] = useState(event.date);
@@ -79,7 +79,7 @@ export const EventPage = (props: EventWithUser) => {
     setDate(new Date());
   };
 
-  if (user?.id !== author.id) return <EventView {...props} />;
+  if (session?.user?.email !== author.id) return <EventView {...props} />;
 
   return (
     <>
@@ -108,7 +108,7 @@ export const EventPage = (props: EventWithUser) => {
                   setDate(new Date(e.target.value));
                 }}
               />
-              {!isDeleting && user?.id === author.id && (
+              {!isDeleting && session?.user?.email === author.id && (
                 <div
                   className="relative top-0 right-0 hover:cursor-pointer"
                   onClick={() => mutate({ id: event.id })}
@@ -195,8 +195,8 @@ export const EventPage = (props: EventWithUser) => {
                   y="0px"
                   width="24"
                   height="24"
-                                  viewBox="0 0 24 24"
-                                  className="fill-current text-white"
+                  viewBox="0 0 24 24"
+                  className="fill-current text-white"
                 >
                   <path d="M 12 2 C 6.4889971 2 2 6.4889971 2 12 C 2 17.511003 6.4889971 22 12 22 C 17.511003 22 22 17.511003 22 12 C 22 6.4889971 17.511003 2 12 2 z M 12 4 C 16.430123 4 20 7.5698774 20 12 C 20 16.430123 16.430123 20 12 20 C 7.5698774 20 4 16.430123 4 12 C 4 7.5698774 7.5698774 4 12 4 z M 11 7 L 11 11 L 7 11 L 7 13 L 11 13 L 11 17 L 13 17 L 13 13 L 17 13 L 17 11 L 13 11 L 13 7 L 11 7 z"></path>
                 </svg>

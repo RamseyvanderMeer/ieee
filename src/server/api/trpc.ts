@@ -25,14 +25,8 @@ import { prisma } from "~/server/db";
  * @see https://trpc.io/docs/context
  */
 export const createTRPCContext = (opts: CreateNextContextOptions) => {
-  const { req } = opts;
-  const sesh = getAuth(req);
-
-  const userId = sesh.userId;
-
   return {
-    prisma,
-    userId,
+    prisma
   };
 };
 
@@ -43,7 +37,6 @@ export const createTRPCContext = (opts: CreateNextContextOptions) => {
  */
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
-import { getAuth } from "@clerk/nextjs/server";
 import { ZodError } from "zod";
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
@@ -84,17 +77,8 @@ export const createTRPCRouter = t.router;
 export const publicProcedure = t.procedure;
 
 const enforceUserIsAuthed = t.middleware(async ({ ctx, next }) => {
-  if (!ctx.userId) {
-    throw new TRPCError({
-      code: "UNAUTHORIZED",
-    });
-  }
 
-  return next({
-    ctx: {
-      userId: ctx.userId,
-    },
-  });
+  return next();
 });
 
 export const privateProcedure = t.procedure.use(enforceUserIsAuthed);

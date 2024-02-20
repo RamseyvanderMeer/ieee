@@ -14,7 +14,6 @@ Hope it's helpful!
 
 ## What do I deploy it on?
 
-- Clerk [https://clerk.com/?utm_campaign=theo-dtc](https://clerk.com/?utm_campaign=theo-dtc)
 - Planetscale [https://planetscale.com/?ref=theo](https://planetscale.com/?ref=theo)
 - Upstash [https://upstash.com/?utm_source=theo_qstash](https://upstash.com/?utm_source=theo_qstash)
 - Vercel [https://vercel.com/?ref=theo](https://vercel.com/?ref=theo)
