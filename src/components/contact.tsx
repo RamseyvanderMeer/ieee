@@ -66,7 +66,7 @@ export const Contact = () => {
     <div className="relative flex min-h-screen w-screen flex-col items-center justify-center overflow-hidden ">
       {status !== "authenticated" && status !== "loading" && (
         <form className="w-11/12 rounded-xl border-2  border-gray-400 p-6 md:w-6/12">
-          <h2 className="mb-8 text-6xl font-bold">Contact Us</h2>
+          <h2 className="mb-8 text-6xl font-bold">Contact Us!</h2>
           <div className="pt-2">
             <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
               Username
