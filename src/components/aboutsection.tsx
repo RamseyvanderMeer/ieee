@@ -20,7 +20,7 @@ export const AboutSection = () => {
         workshops. Plus, TAGS hosts recurring meetings to help you hone
         essential industry skills. Don&rsquo;t miss out on our other exciting
         events – stay updated through our weekly email updates. We look forward
-        to seeing you soon!
+        to seeing you soon
       </p>
       <div className="flex flex-col md:flex-row">
         {status !== "authenticated" && status !== "loading" && (
